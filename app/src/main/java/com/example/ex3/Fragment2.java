@@ -23,15 +23,7 @@ public class Fragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_2, container, false);
 
         Button button = (Button) view.findViewById(R.id.button);
-        getParentFragmentManager().setFragmentResultListener("r1Key", this,
-                new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                String resString = result.getString("b1Key");
-                TextView text = (TextView) view.findViewById(R.id.text);
-                text.setText(resString);
-            }
-        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +36,15 @@ public class Fragment2 extends Fragment {
                         replace(R.id.fragment, Fragment1.class, null).addToBackStack(null).commit();
             }
         });
-
+        getParentFragmentManager().setFragmentResultListener("r1Key", this,
+                new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                        String resString = result.getString("b1Key");
+                        TextView text = (TextView) view.findViewById(R.id.text);
+                        text.setText(resString);
+                    }
+                });
         return view;
     }
 }

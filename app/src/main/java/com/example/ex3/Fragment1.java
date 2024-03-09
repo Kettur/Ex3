@@ -29,6 +29,10 @@ public class Fragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        getChildFragmentManager().beginTransaction().add(R.id.childFragment, new ChildFragment()).commit();
+
+
         Toast.makeText(getActivity(), "onCreateView", Toast.LENGTH_SHORT).show();
         Log.i("TESTAPP", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_1, container, false);
@@ -46,6 +50,15 @@ public class Fragment1 extends Fragment {
             }
         });
 
+        getChildFragmentManager().setFragmentResultListener("rKeyCh", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                String res = result.getString("bKeyCh");
+                TextView chText = (TextView) view.findViewById(R.id.childData);
+                chText.setText(res);
+            }
+        });
+
         getParentFragmentManager().setFragmentResultListener("r2Key", this,
                 new FragmentResultListener() {
             @Override
@@ -55,6 +68,8 @@ public class Fragment1 extends Fragment {
                 text.setText(resString);
             }
         });
+
+
         return view;
     }
     @Override
